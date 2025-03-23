@@ -1,0 +1,285 @@
+{
+    "API_KEY": "",
+    
+    "FEED_URLS": {
+      "nqrw": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+      "456": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
+      "l": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l",
+      "ace": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
+      "bdfm": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
+      "g": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g",
+      "jz": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz",
+      "7": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7",
+      "123": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs"
+    },
+    
+    "FEED_TO_ROUTES": {
+      "nqrw": ["N", "Q", "R", "W"],
+      "456": ["4", "5", "6"],
+      "123": ["1", "2", "3", "S"],
+      "l": ["L"],
+      "ace": ["A", "C", "E"],
+      "bdfm": ["B", "D", "F", "M"],
+      "g": ["G"],
+      "jz": ["J", "Z"],
+      "7": ["7"]
+    },
+    
+    "TARGET_ROUTES": ["1", "2", "3", "4", "5", "6", "7", "A", "B", "C", "D", "E", "F", "G", "J", "L", "M", "N", "Q", "R", "S", "W", "Z"],
+    
+    "STATIONS": {
+      "union_square": {
+        "DISPLAY_NAME": "Union Square",
+        "STOP_IDS": {
+          "N": "R14N",
+          "R": "R14N",
+          "Q": "R14N",
+          "W": "R14N",
+          "N_south": "R14S",
+          "R_south": "R14S",
+          "Q_south": "R14S",
+          "W_south": "R14S",
+          "4": "635N",
+          "5": "635N",
+          "6": "635N",
+          "4_south": "635S",
+          "5_south": "635S",
+          "6_south": "635S",
+          "L": "L03N",
+          "L_south": "L03S"
+        },
+        "LINE_GROUPS": {
+          "456": {
+            "display_name": "4/5/6 Trains (Lexington Avenue Line)",
+            "routes": ["4", "5", "6"]
+          },
+          "nqrw": {
+            "display_name": "N/Q/R/W Trains (Broadway Line)",
+            "routes": ["N", "Q", "R", "W"]
+          },
+          "l": {
+            "display_name": "L Trains (Canarsie Line)",
+            "routes": ["L"]
+          }
+        },
+        "DIRECTIONS": {
+          "uptown": {
+            "display_name": "Uptown/Bronx",
+            "stop_id_keys": ["4", "5", "6", "N", "Q", "R", "W"]
+          },
+          "downtown": {
+            "display_name": "Downtown/Brooklyn",
+            "stop_id_keys": ["4_south", "5_south", "6_south", "N_south", "Q_south", "R_south", "W_south"]
+          },
+          "westbound": {
+            "display_name": "To 8 Ave",
+            "stop_id_keys": ["L"]
+          },
+          "eastbound": {
+            "display_name": "To Canarsie",
+            "stop_id_keys": ["L_south"]
+          }
+        },
+        "ROUTES": ["N", "Q", "R", "W", "4", "5", "6", "L"]
+      },
+  
+      "times_square": {
+        "DISPLAY_NAME": "Times Square - 42nd St",
+        "STOP_IDS": {
+          "N": "R16N",
+          "R": "R16N",
+          "Q": "R16N",
+          "W": "R16N",
+          "N_south": "R16S",
+          "R_south": "R16S",
+          "Q_south": "R16S",
+          "W_south": "R16S",
+          "1": "127N",
+          "2": "127N",
+          "3": "127N",
+          "1_south": "127S",
+          "2_south": "127S",
+          "3_south": "127S",
+          "7": "725N",
+          "7_south": "725S",
+          "A": "A27N",
+          "C": "A27N",
+          "E": "A27N",
+          "A_south": "A27S",
+          "C_south": "A27S",
+          "E_south": "A27S"
+        },
+        "LINE_GROUPS": {
+          "123": {
+            "display_name": "1/2/3 Trains (Broadway-7th Avenue Line)",
+            "routes": ["1", "2", "3"]
+          },
+          "nqrw": {
+            "display_name": "N/Q/R/W Trains (Broadway Line)",
+            "routes": ["N", "Q", "R", "W"]
+          },
+          "7": {
+            "display_name": "7 Train (Flushing Line)",
+            "routes": ["7"]
+          },
+          "ace": {
+            "display_name": "A/C/E Trains (8th Avenue Line)",
+            "routes": ["A", "C", "E"]
+          }
+        },
+        "DIRECTIONS": {
+          "uptown": {
+            "display_name": "Uptown/Bronx",
+            "stop_id_keys": ["1", "2", "3", "N", "Q", "R", "W", "A", "C", "E"]
+          },
+          "downtown": {
+            "display_name": "Downtown/Brooklyn",
+            "stop_id_keys": ["1_south", "2_south", "3_south", "N_south", "Q_south", "R_south", "W_south", "A_south", "C_south", "E_south"]
+          },
+          "eastbound": {
+            "display_name": "To Flushing",
+            "stop_id_keys": ["7"]
+          },
+          "westbound": {
+            "display_name": "To Hudson Yards",
+            "stop_id_keys": ["7_south"]
+          }
+        },
+        "ROUTES": ["N", "Q", "R", "W", "1", "2", "3", "7", "A", "C", "E"]
+      },
+  
+      "grand_central": {
+        "DISPLAY_NAME": "Grand Central-42nd Street",
+        "STOP_IDS": {
+          "4": "631N",
+          "5": "631N",
+          "6": "631N",
+          "4_south": "631S",
+          "5_south": "631S",
+          "6_south": "631S",
+          "7": "724N",
+          "7_south": "724S",
+          "S": "902N"
+        },
+        "LINE_GROUPS": {
+          "456": {
+            "display_name": "4/5/6 Trains (Lexington Avenue Line)",
+            "routes": ["4", "5", "6"]
+          },
+          "7": {
+            "display_name": "7 Train (Flushing Line)",
+            "routes": ["7"]
+          },
+          "s": {
+            "display_name": "S Train (42nd Street Shuttle)",
+            "routes": ["S"]
+          }
+        },
+        "DIRECTIONS": {
+          "uptown": {
+            "display_name": "Uptown/Bronx",
+            "stop_id_keys": ["4", "5", "6"]
+          },
+          "downtown": {
+            "display_name": "Downtown/Brooklyn",
+            "stop_id_keys": ["4_south", "5_south", "6_south"]
+          },
+          "eastbound": {
+            "display_name": "To Flushing",
+            "stop_id_keys": ["7"]
+          },
+          "westbound": {
+            "display_name": "To Hudson Yards",
+            "stop_id_keys": ["7_south"]
+          },
+          "shuttle": {
+            "display_name": "To Times Square",
+            "stop_id_keys": ["S"]
+          }
+        },
+        "ROUTES": ["4", "5", "6", "7", "S"]
+      },
+  
+      "herald_square": {
+        "DISPLAY_NAME": "34th Street-Herald Square",
+        "STOP_IDS": {
+          "N": "R17N",
+          "Q": "R17N",
+          "R": "R17N",
+          "W": "R17N",
+          "N_south": "R17S",
+          "Q_south": "R17S",
+          "R_south": "R17S",
+          "W_south": "R17S",
+          "B": "D17N",
+          "D": "D17N",
+          "F": "D17N",
+          "M": "D17N",
+          "B_south": "D17S",
+          "D_south": "D17S",
+          "F_south": "D17S",
+          "M_south": "D17S"
+        },
+        "LINE_GROUPS": {
+          "nqrw": {
+            "display_name": "N/Q/R/W Trains (Broadway Line)",
+            "routes": ["N", "Q", "R", "W"]
+          },
+          "bdfm": {
+            "display_name": "B/D/F/M Trains (6th Avenue Line)",
+            "routes": ["B", "D", "F", "M"]
+          }
+        },
+        "DIRECTIONS": {
+          "uptown": {
+            "display_name": "Uptown/Queens",
+            "stop_id_keys": ["N", "Q", "R", "W", "B", "D", "F", "M"]
+          },
+          "downtown": {
+            "display_name": "Downtown/Brooklyn",
+            "stop_id_keys": ["N_south", "Q_south", "R_south", "W_south", "B_south", "D_south", "F_south", "M_south"]
+          }
+        },
+        "ROUTES": ["N", "Q", "R", "W", "B", "D", "F", "M"]
+      },
+  
+      "penn_station": {
+        "DISPLAY_NAME": "34th Street-Penn Station",
+        "STOP_IDS": {
+          "1": "128N",
+          "2": "128N",
+          "3": "128N",
+          "1_south": "128S",
+          "2_south": "128S",
+          "3_south": "128S",
+          "A": "A28N",
+          "C": "A28N",
+          "E": "A28N",
+          "A_south": "A28S",
+          "C_south": "A28S",
+          "E_south": "A28S"
+        },
+        "LINE_GROUPS": {
+          "123": {
+            "display_name": "1/2/3 Trains (Broadway-7th Avenue Line)",
+            "routes": ["1", "2", "3"]
+          },
+          "ace": {
+            "display_name": "A/C/E Trains (8th Avenue Line)",
+            "routes": ["A", "C", "E"]
+          }
+        },
+        "DIRECTIONS": {
+          "uptown": {
+            "display_name": "Uptown/Bronx",
+            "stop_id_keys": ["1", "2", "3", "A", "C", "E"]
+          },
+          "downtown": {
+            "display_name": "Downtown/Brooklyn",
+            "stop_id_keys": ["1_south", "2_south", "3_south", "A_south", "C_south", "E_south"]
+          }
+        },
+        "ROUTES": ["1", "2", "3", "A", "C", "E"]
+      }
+    }
+  }

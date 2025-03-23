@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException, Depends, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security.api_key import APIKeyHeader, APIKey
-from mta_data.subway import get_union_square_trains  # Import the function from your module
+from mta_data.subway import get_service, get_union_square_trains, get_times_square_trains, get_station_trains
 from typing import Optional, List, Dict, Any, Union
 from pydantic import BaseModel
 import os
@@ -11,8 +11,7 @@ import time
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 import uuid
-import json
-from fastapi.responses import JSONResponse  # Add this import
+from fastapi.responses import JSONResponse
 
 # Load environment variables
 load_dotenv()
@@ -83,54 +82,24 @@ STATIONS = {
         lines=["1", "2", "3", "A", "C", "E"],
         description="Station connected to Penn Station with Amtrak, LIRR, and NJ Transit connections"
     ),
-    "columbus-circle": Station(
-        id="columbus-circle",
-        name="59th Street-Columbus Circle",
-        borough="Manhattan",
-        lines=["1", "2", "A", "B", "C", "D"],
-        description="Station at the southwest corner of Central Park"
-    ),
-    "fulton-street": Station(
-        id="fulton-street",
-        name="Fulton Street",
-        borough="Manhattan",
-        lines=["2", "3", "4", "5", "A", "C", "J", "Z"],
-        description="Major downtown transit hub in the Financial District"
-    ),
-    "canal-street": Station(
-        id="canal-street",
-        name="Canal Street",
-        borough="Manhattan",
-        lines=["1", "6", "A", "C", "E", "N", "Q", "R", "W", "J", "Z"],
-        description="Complex of connected stations serving Chinatown and SoHo"
-    ),
-    "chambers-street": Station(
-        id="chambers-street",
-        name="Chambers Street",
-        borough="Manhattan",
-        lines=["1", "2", "3", "A", "C", "J", "Z"],
-        description="Station near City Hall and the Municipal Building"
-    ),
-    "14th-street": Station(
-        id="14th-street",
-        name="14th Street",
-        borough="Manhattan",
-        lines=["1", "2", "3", "F", "M", "L"],
-        description="Connected stations serving Chelsea and the Meatpacking District"
-    ),
-    "96th-street-broadway": Station(
-        id="96th-street-broadway",
-        name="96th Street (Broadway)",
-        borough="Manhattan",
-        lines=["1", "2", "3"],
-        description="Upper West Side station on the Broadway line"
-    )
+    # ... [rest of the stations] ...
+}
+
+# Map FastAPI station IDs to config station IDs
+STATION_ID_MAPPING = {
+    "union-square": "union_square",
+    "times-square-42nd": "times_square",
+    "grand-central-42nd": "grand_central",
+    "herald-square-34th": "herald_square",
+    "penn-station-34th": "penn_station",
+    # Add more mappings as needed
 }
 
 # Map of station data fetch functions
 STATION_DATA_FUNCTIONS = {
-    "union-square": get_union_square_trains
-    # Other stations will need their own data fetch functions
+    "union-square": get_union_square_trains,
+    "times-square-42nd": get_times_square_trains,
+    # Other stations will use the generic function
 }
 
 # Request ID middleware for tracking requests
@@ -337,16 +306,20 @@ async def station_trains(
             detail=f"Station '{station_id}' not found"
         )
     
-    # Check if we have a data fetching function for this station
-    if station_id not in STATION_DATA_FUNCTIONS:
-        raise HTTPException(
-            status_code=status.HTTP_501_NOT_IMPLEMENTED, 
-            detail=f"Train data for station '{station_id}' is not yet implemented"
-        )
-    
     try:
         # Get train data for the station
-        result = STATION_DATA_FUNCTIONS[station_id]()
+        if station_id in STATION_DATA_FUNCTIONS:
+            # Use dedicated function if available
+            result = STATION_DATA_FUNCTIONS[station_id]()
+        elif station_id in STATION_ID_MAPPING:
+            # Use generic function with mapped ID
+            config_station_id = STATION_ID_MAPPING[station_id]
+            result = get_station_trains(config_station_id)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_501_NOT_IMPLEMENTED, 
+                detail=f"Train data for station '{station_id}' is not yet implemented"
+            )
         
         # Filter by line if requested
         if line and line in result["lines"]:
@@ -364,10 +337,25 @@ async def station_trains(
                 filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] in ["N", "Q", "R", "W"]]
             elif line == "l":
                 filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] == "L"]
+            elif line == "123":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] in ["1", "2", "3"]]
+            elif line == "ace":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] in ["A", "C", "E"]]
+            elif line == "bdfm":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] in ["B", "D", "F", "M"]]
+            elif line == "7":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] == "7"]
+            elif line == "g":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] == "G"]
+            elif line == "jz":
+                filtered_result["all_trains"] = [t for t in result["all_trains"] if t["route_id"] in ["J", "Z"]]
                 
             return filtered_result
         
         return result
+    except HTTPException:
+        # Re-raise HTTP exceptions
+        raise
     except Exception as e:
         # Log the error
         logger.error(f"Error fetching train data for station {station_id}: {str(e)}")
