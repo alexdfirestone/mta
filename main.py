@@ -182,7 +182,8 @@ app.add_middleware(RequestIdMiddleware)
 # Add CORS middleware with more restrictive settings for production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("ALLOWED_ORIGINS", "").split(","),  # Comma-separated origins from env
+    #allow_origins=os.getenv("ALLOWED_ORIGINS", "").split(","),  # Comma-separated origins from env
+    allow_origins=os.getenv("*"),  # Comma-separated origins from env
     allow_credentials=True,
     allow_methods=["GET"],  # Restrict to only necessary methods
     allow_headers=["*"],
