@@ -2,10 +2,30 @@ import requests
 import time
 import json
 from google.transit import gtfs_realtime_pb2
-from protobuf_to_dict import protobuf_to_dict
+#from protobuf_to_dict import protobuf_to_dict
+from google.protobuf.json_format import MessageToDict
 from datetime import datetime
 import os
 import logging
+
+
+# Custom protobuf to dict converter that works with Python 3.11
+def protobuf_to_dict(message):
+    result_dict = {}
+    for field, value in message.ListFields():
+        if field.label == field.LABEL_REPEATED:
+            result_dict[field.name] = [_convert_value(v) for v in value]
+        else:
+            result_dict[field.name] = _convert_value(value)
+    return result_dict
+
+def _convert_value(value):
+    if hasattr(value, 'ListFields'):
+        return protobuf_to_dict(value)
+    elif isinstance(value, list) and value and hasattr(value[0], 'ListFields'):
+        return [protobuf_to_dict(v) for v in value]
+    else:
+        return value
 
 # Configure logging
 logger = logging.getLogger(__name__)
